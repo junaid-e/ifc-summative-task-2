@@ -80,8 +80,47 @@ class QuizApp:
 
         self.name_entry = tk.Entry(self.root)
         self.name_entry.pack()
+
+        self.start_button = tk.Button(
+            self.root,
+            text="Start Quiz",
+            command=self.start_quiz
+        )
+        self.start_button.pack()
+
+    def start_quiz(self):
+
+        self.name = self.name_entry.get()
+
+        if not validate_name(self.name):
+            messagebox.showerror(
+                "Error",
+                "Please enter your name."
+            )
+            return
+
+        self.name_label.destroy()
+        self.name_entry.destroy()
+        self.start_button.destroy()
+
+        self.show_question()
+
+    def show_question(self):
+
+        if self.current_question >= len(self.questions):
+            self.show_result()
+            return
+
+        question = self.questions[self.current_question]
+
+        self.question_label = tk.Label(
+            self.root,
+            text=question.question,
+            wraplength=400,
+            
+        )
         
-   
+
 root = tk.Tk()
 root.geometry("700x200")
 root.configure(background='lightgreen')
