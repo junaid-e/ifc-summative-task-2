@@ -67,7 +67,6 @@ class QuizApp:
         ]
 
         self.current_question = 0
-
         self.create_start_screen()
 
     def create_start_screen(self):
@@ -77,7 +76,6 @@ class QuizApp:
             text="Enter your name:"
         )
         self.name_label.pack()
-
         self.name_entry = tk.Entry(self.root)
         self.name_entry.pack()
 
@@ -102,7 +100,6 @@ class QuizApp:
         self.name_label.destroy()
         self.name_entry.destroy()
         self.start_button.destroy()
-
         self.show_question()
 
     def show_question(self):
@@ -120,9 +117,7 @@ class QuizApp:
             
         )
         self.question_label.pack()
-
         self.answer_var = tk.StringVar(value="NONE")
-
         self.radio_buttons = []
 
         for option in question.options:
@@ -171,12 +166,23 @@ class QuizApp:
             radio.destroy()
 
         self.next_button.destroy()
-
         self.current_question += 1
-
         self.show_question()
 
-    
+    def show_result(self):
+
+        score = self.quiz.score
+     
+        result_label = tk.Label(
+            self.root,
+            text=f"{self.name}, you scored {score}/5!",
+            font=(12),
+            bg="lightgreen",
+            justify="center",
+            anchor="center"
+        )
+
+        result_label.pack()
 
 
 root = tk.Tk()
