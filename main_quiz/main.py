@@ -119,7 +119,65 @@ class QuizApp:
             wraplength=400,
             
         )
+        self.question_label.pack()
+
+        self.answer_var = tk.StringVar(value="NONE")
+
+        self.radio_buttons = []
+
+        for option in question.options:
+
+            radio = tk.Radiobutton(
+                self.root,
+                text=option,
+                variable=self.answer_var,
+                value=option[0],
+                bg="lightgreen"
+            )
+
+            radio.pack(anchor="w")
+
+            self.radio_buttons.append(radio)
+
+        self.next_button = tk.Button(
+            self.root,
+            text="Next",
+            command=self.next_question
+        )
+
+        self.next_button.pack()
+
+    def next_question(self):
+
+        selected = self.answer_var.get()
+
+        if selected == "NONE":
+             messagebox.showerror(
+            "Answer Required",
+            "Please select an answer before continuing."
+                            )
+             return
         
+        question = self.questions[self.current_question]
+
+        self.quiz.check_answer(
+            selected,
+            question.correct_answer
+        )
+
+        self.question_label.destroy()
+
+        for radio in self.radio_buttons:
+            radio.destroy()
+
+        self.next_button.destroy()
+
+        self.current_question += 1
+
+        self.show_question()
+
+    
+
 
 root = tk.Tk()
 root.geometry("700x200")
