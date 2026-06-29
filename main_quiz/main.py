@@ -1,13 +1,29 @@
+"""
+Main file for the AI Quiz.
+
+This creates the interface window where the questions are displayed, as well as results screen
+The results are also saved to a csv file that is outputted.
+"""
+
 import tkinter as tk
 import tkinter.messagebox as messagebox
 
 from quiz import QuizQuestion, Quiz
 from validation import validate_name
+from create_csv import CsvCreate
 
 
 class QuizApp:
+    
+    """
+    This is the main class for the AI  Quiz which manages the interface, shows questions, and records user score.
+    """
 
     def __init__(self, root):
+
+        """
+        This defines the interface window for the quiz
+        """
 
         self.root = root
         self.root.title("AI Models Quiz")
@@ -70,6 +86,10 @@ class QuizApp:
         self.create_start_screen()
 
     def create_start_screen(self):
+        """
+    Creates the first part where the user enters their name before the quiz.
+    """
+
 
         self.name_label = tk.Label(
             self.root,
@@ -87,6 +107,10 @@ class QuizApp:
         self.start_button.pack()
 
     def start_quiz(self):
+     
+        """
+             Validates the username is not empty and starts the quiz if the input is valid.
+     """
 
         self.name = self.name_entry.get()
 
@@ -103,6 +127,9 @@ class QuizApp:
         self.show_question()
 
     def show_question(self):
+        """
+    Displays the current question and possible answers.
+    """
 
         if self.current_question >= len(self.questions):
             self.show_result()
@@ -121,6 +148,9 @@ class QuizApp:
         self.radio_buttons = []
 
         for option in question.options:
+            """
+            Customisation for multiple choice answers display
+            """
 
             radio = tk.Radiobutton(
                 self.root,
@@ -143,6 +173,9 @@ class QuizApp:
         self.next_button.pack()
 
     def next_question(self):
+        """
+    Checks answer is pressed, updates the score. Also moves to the next question.
+    """
 
         selected = self.answer_var.get()
 
@@ -170,8 +203,15 @@ class QuizApp:
         self.show_question()
 
     def show_result(self):
+        """
+    Displays user final score and saves the result to the CSV file record.
+    """
 
         score = self.quiz.score
+        CsvCreate.save_result(
+            self.name,
+            score
+        )
      
         result_label = tk.Label(
             self.root,
@@ -184,7 +224,9 @@ class QuizApp:
 
         result_label.pack()
 
-
+"""
+The below code customises the quiz window features.
+"""
 root = tk.Tk()
 root.geometry("700x200")
 root.configure(background='lightgreen')
